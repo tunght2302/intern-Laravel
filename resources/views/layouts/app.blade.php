@@ -63,7 +63,7 @@
                                aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fa fa-bell"></i>
                                 <span
-                                    class="badge badge-light bg-success badge-xs">{{auth()->user()->unreadNotifications->count()}}</span>
+                                    class="badge badge-light bg-success badge-xs">{{ auth()->user()->unreadNotifications ? auth()->user()->unreadNotifications->count() : 0 }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 @if (auth()->user()->unreadNotifications)
@@ -72,17 +72,20 @@
                                             Read</a>
                                     </li>
                                 @endif
-
-                                @foreach (auth()->user()->unreadNotifications as $notification)
-                                    <a href="#" class="text-success">
-                                        <li class="p-1 text-success"> {{$notification->data['data']}}</li>
-                                    </a>
-                                @endforeach
-                                @foreach (auth()->user()->readNotifications as $notification)
-                                    <a href="#" class="text-secondary">
-                                        <li class="p-1 text-secondary"> {{$notification->data['data']}}</li>
-                                    </a>
-                                @endforeach
+                                @if (auth()->user()->unreadNotifications)
+                                    @foreach (auth()->user()->unreadNotifications as $notification)
+                                        <a href="#" class="text-success">
+                                            <li class="p-1 text-success"> {{$notification->data['data']}}</li>
+                                        </a>
+                                    @endforeach
+                                @endif
+                                @if (auth()->user()->readNotifications)
+                                    @foreach (auth()->user()->readNotifications as $notification)
+                                        <a href="#" class="text-secondary">
+                                            <li class="p-1 text-secondary"> {{$notification->data['data']}}</li>
+                                        </a>
+                                    @endforeach
+                                @endif
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
